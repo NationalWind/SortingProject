@@ -1,29 +1,37 @@
 #include "Sort.h"
 
-void heapifyTime(int start, int a[], int n) {
+void heapifyTime(int start, int a[], int n)
+{
 	int left = start * 2 + 1;
-	if (left >= n) return;
+	if (left >= n)
+		return;
 	int larger = left;
 	int right = start * 2 + 2;
-	if (right < n) {
-		if (a[right] > a[larger]) {
+	if (right < n)
+	{
+		if (a[right] > a[larger])
+		{
 			larger = right;
 		}
 	}
-	if (a[start] < a[larger]) {
+	if (a[start] < a[larger])
+	{
 		HoanVi(a[start], a[larger]);
 		heapifyTime(larger, a, n);
 	}
 }
 
-double heapSortTime(int a[], int n) {
+double heapSortTime(int a[], int n)
+{
 	auto beginTime = clock();
-	for (int i = (n - 1) / 2; i >= 0; i--) {
+	for (int i = (n - 1) / 2; i >= 0; i--)
+	{
 		heapifyTime(i, a, n);
 	}
 	swap(a[0], a[n - 1]);
 	int sz = n - 1;
-	while (sz > 1) {
+	while (sz > 1)
+	{
 		heapifyTime(0, a, sz);
 		sz--;
 		HoanVi(a[0], a[sz]);
@@ -32,44 +40,51 @@ double heapSortTime(int a[], int n) {
 	return timeUsed;
 }
 
-void heapifyCompare(int start, int a[], int n, int &count_compare) {
+void heapifyCompare(int start, int a[], int n, int &count_compare)
+{
 	int left = start * 2 + 1;
-	if (++count_compare && left >= n) return;
+	if (++count_compare && left >= n)
+		return;
 	int larger = left;
 	int right = start * 2 + 2;
-	if (++count_compare && right < n) {
-		if (++count_compare && a[right] > a[larger]) {
+	if (++count_compare && right < n)
+	{
+		if (++count_compare && a[right] > a[larger])
+		{
 			larger = right;
 		}
 	}
-	if (++count_compare && a[start] < a[larger]) {
+	if (++count_compare && a[start] < a[larger])
+	{
 		HoanVi(a[start], a[larger]);
 		heapifyTime(larger, a, n);
 	}
 }
 
-void heapSortCompare(int a[], int n, int &count_compare) {
+void heapSortCompare(int a[], int n, int &count_compare)
+{
 	count_compare = 0;
-	for (int i = (n - 1) / 2; ++count_compare && i >= 0; i--) {
+	for (int i = (n - 1) / 2; ++count_compare && i >= 0; i--)
+	{
 		heapifyCompare(i, a, n, count_compare);
 	}
 	HoanVi(a[0], a[n - 1]);
 	int sz = n - 1;
-	while (sz > 1) {
+	while (sz > 1)
+	{
 		heapifyCompare(0, a, sz, count_compare);
 		sz--;
 		swap(a[0], a[sz]);
 	}
 }
 
-double flashSortTime(int a[], int n) {
+double flashSortTime(int a[], int n)
+{
 	auto beginTime = clock();
-	if (n == 0)
-		return;
-
 	int minValue, maxValue;
 	minValue = maxValue = a[0];
-	for (int i = 1; i < n; i++) {
+	for (int i = 1; i < n; i++)
+	{
 		if (a[i] < minValue)
 			minValue = a[i];
 		else if (a[i] > maxValue)
@@ -77,7 +92,7 @@ double flashSortTime(int a[], int n) {
 	}
 
 	int m = int(0.43 * n);
-	int* cnt = new int[m] {0};
+	int *cnt = new int[m]{0};
 
 	for (int i = 0; i < n; i++)
 		cnt[int(m * (a[i] - minValue) / (maxValue - minValue + 1))]++;
@@ -88,14 +103,18 @@ double flashSortTime(int a[], int n) {
 	int numMoves = 0;
 	int i = 0;
 	int k = m - 1;
-	while (numMoves < n - 1) {
-		while (i > cnt[k] - 1) {
+	while (numMoves < n - 1)
+	{
+		while (i > cnt[k] - 1)
+		{
 			i++;
 			k = int(m * (a[i] - minValue) / (maxValue - minValue + 1));
 		}
 		int flash = a[i];
-		if (k < 0) break;
-		while (i != cnt[k]) {
+		if (k < 0)
+			break;
+		while (i != cnt[k])
+		{
 			k = int(m * (flash - minValue) / (maxValue - minValue + 1));
 			int swap = a[cnt[k] - 1];
 			a[cnt[k] - 1] = flash;
@@ -104,10 +123,12 @@ double flashSortTime(int a[], int n) {
 			numMoves++;
 		}
 	}
-	for (int i = 1; i < n; i++) {
+	for (int i = 1; i < n; i++)
+	{
 		int j = i;
 		int temp = a[i];
-		while (j > 0 && temp < a[j - 1]) {
+		while (j > 0 && temp < a[j - 1])
+		{
 			a[j] = a[j - 1];
 			j--;
 		}
@@ -120,13 +141,12 @@ double flashSortTime(int a[], int n) {
 	return timeUsed;
 }
 
-void flashSortCompare(int a[], int n, int &count_compare) {
-	if (++count_compare && n == 0)
-		return;
-
+void flashSortCompare(int a[], int n, int &count_compare)
+{
 	int minValue, maxValue;
 	minValue = maxValue = a[0];
-	for (int i = 1;++count_compare && i < n; i++) {
+	for (int i = 1; ++count_compare && i < n; i++)
+	{
 		if (++count_compare && a[i] < minValue)
 			minValue = a[i];
 		else if (++count_compare && a[i] > maxValue)
@@ -134,7 +154,7 @@ void flashSortCompare(int a[], int n, int &count_compare) {
 	}
 
 	int m = int(0.43 * n);
-	int* cnt = new int[m] {0};
+	int *cnt = new int[m]{0};
 
 	for (int i = 0; ++count_compare && i < n; i++)
 		cnt[int(m * (a[i] - minValue) / (maxValue - minValue + 1))]++;
@@ -145,14 +165,18 @@ void flashSortCompare(int a[], int n, int &count_compare) {
 	int numMoves = 0;
 	int i = 0;
 	int k = m - 1;
-	while (++count_compare && numMoves < n - 1) {
-		while (++count_compare && i > cnt[k] - 1) {
+	while (++count_compare && numMoves < n - 1)
+	{
+		while (++count_compare && i > cnt[k] - 1)
+		{
 			i++;
 			k = int(m * (a[i] - minValue) / (maxValue - minValue + 1));
 		}
 		int flash = a[i];
-		if (++count_compare && k < 0) break;
-		while (++count_compare && i != cnt[k]) {
+		if (++count_compare && k < 0)
+			break;
+		while (++count_compare && i != cnt[k])
+		{
 			k = int(m * (flash - minValue) / (maxValue - minValue + 1));
 			int swap = a[cnt[k] - 1];
 			a[cnt[k] - 1] = flash;
@@ -161,10 +185,12 @@ void flashSortCompare(int a[], int n, int &count_compare) {
 			numMoves++;
 		}
 	}
-	for (int i = 1; ++count_compare && i < n; i++) {
+	for (int i = 1; ++count_compare && i < n; i++)
+	{
 		int j = i;
 		int temp = a[i];
-		while (++count_compare && j > 0 && temp < a[j - 1]) {
+		while (++count_compare && j > 0 && temp < a[j - 1])
+		{
 			a[j] = a[j - 1];
 			j--;
 		}
