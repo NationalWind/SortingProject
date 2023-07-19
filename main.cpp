@@ -3,7 +3,8 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
-
-	return 0;
+int main(int argc, char *argv[]) {
+    cout << 1;
+    cin.ignore();
+    return 0;
 }
