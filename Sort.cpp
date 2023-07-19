@@ -165,3 +165,44 @@ void flashSortCompare(int a[], int n, int &count_compare) {
 
     delete[] cnt;
 }
+
+double bubbleSortTime(int arr[], int n)
+{
+    auto beginTime = clock();
+    int i, j;
+    bool swapped;
+    for (i = 0; i < n - 1; i++) {
+        swapped = false;
+        for (j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+                swapped = true;
+            }
+        }
+  
+        if (swapped == false)
+            break;
+    }
+    double timeUsed = ((double)clock() - beginTime);
+    return timeUsed;
+}
+
+void bubbleSortCompare(int start, int a[], int n, int &count_compare) {
+
+    int i, j;
+    bool swapped;
+    for (i = 0; ++count_compare && i < n - 1; i++) {
+        swapped = false;
+        for (j = 0; ++count_compare && j < n - i - 1; j++) {
+            if (++count_compare && arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+                swapped = true;
+            }
+        }
+  
+        if (++count_compare && swapped == false)
+            break;
+    }
+
+}
+
