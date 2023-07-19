@@ -31,9 +31,6 @@
 *.out
 *.app
 
-# Vscode
-.vscode/
-
 # Visual Studio
 .sln
 .vcxproj
