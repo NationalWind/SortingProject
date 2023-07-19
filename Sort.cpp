@@ -28,7 +28,7 @@ double heapSortTime(int a[], int n) {
         sz--;
         HoanVi(a[0], a[sz]);
     }
-    double timeUsed = ((double)clock() - beginTime);
+    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC;
     return timeUsed;
 }
 
@@ -111,8 +111,7 @@ double flashSortTime(int a[], int n) {
     }
 
     delete[] cnt;
-
-    double timeUsed = ((double)clock() - beginTime);
+    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC;
     return timeUsed;
 }
 
@@ -156,7 +155,8 @@ void flashSortCompare(int a[], int n, int &count_compare) {
     for (int i = 1; ++count_compare && i < n; i++) {
         int j = i;
         int temp = a[i];
-        while (++count_compare && j > 0 && temp < a[j - 1]) {
+        while ((++count_compare && j > 0) &&
+               (++count_compare && temp < a[j - 1])) {
             a[j] = a[j - 1];
             j--;
         }
