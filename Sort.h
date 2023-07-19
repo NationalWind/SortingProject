@@ -10,3 +10,4 @@ void flashSortCompare(int[], int, int&);
 double bubbleSortTime(int[], int);
 void bubbleSortCompare(int[], int, int&);
 double shakerSortTime(int [], int);
+void shakerSortCompare(int [], int, int &);

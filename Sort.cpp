@@ -28,7 +28,7 @@ double heapSortTime(int a[], int n) {
         sz--;
         HoanVi(a[0], a[sz]);
     }
-    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC;
+    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC * 1000;
     return timeUsed;
 }
 
@@ -111,7 +111,7 @@ double flashSortTime(int a[], int n) {
     }
 
     delete[] cnt;
-    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC;
+    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC * 1000;
     return timeUsed;
 }
 
@@ -179,13 +179,13 @@ double bubbleSortTime(int a[], int n)
                 swapped = true;
             }
         }
-  
-        if (swapped == false)
-            break;
+
+        if (swapped == false) break;
     }
-    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC;
+    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC * 1000;
     return timeUsed;
 }
+
 
 void bubbleSortCompare(int a[], int n, int &count_compare) {
 
@@ -199,11 +199,10 @@ void bubbleSortCompare(int a[], int n, int &count_compare) {
                 swapped = true;
             }
         }
-  
-        if (++count_compare && swapped == false)
-            break;
+
+        if (++count_compare && swapped == false) break;
     }
-    
+   
 }
 
 
@@ -229,7 +228,7 @@ double shakerSortTime(int a[], int n) {
         }
         if(!swapped) break; 
     }
-    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC;
+    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC * 1000;
     return timeUsed;
 }
 
@@ -261,55 +260,55 @@ double selectionSortTime (int arr[], int size){
     for (int i = 0; i < size - 1; i++){
         int minIdx = i;
 
-        for (int j = i + 1; j < size; j++){
-            if ( arr[minIdx] > arr [j]){
+        for (int j = i + 1; j < size; j++) {
+            if (arr[minIdx] > arr[j]) {
                 minIdx = j;
             }
         }
-        swap (arr[i], arr[minIdx]);
+        swap(arr[i], arr[minIdx]);
     }
-	auto endTime = clock();
-	auto timeUsed = (endTime - startTime)/ (double)CLOCKS_PER_SEC * 1000;
-	return timeUsed;
+    auto endTime = clock();
+    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
+    return timeUsed;
 }
 
-void selectionSortCompare (int arr[], int size, int &count_compare){
-    for (int i = 0; ++count_compare && i < size - 1; i++){
+void selectionSortCompare(int arr[], int size, int &count_compare) {
+    for (int i = 0; ++count_compare && i < size - 1; i++) {
         int minIdx = i;
 
-        for (int j = i + 1; ++count_compare && j < size; j++){
-            if ( ++count_compare && arr[minIdx] > arr [j]){
+        for (int j = i + 1; ++count_compare && j < size; j++) {
+            if (++count_compare && arr[minIdx] > arr[j]) {
                 minIdx = j;
             }
         }
-        swap (arr[i], arr[minIdx]);
+        swap(arr[i], arr[minIdx]);
     }
 }
 
-double insertionSortTime (int arr[], int size){
-	auto startTime = clock();
-    for (int i = 1; i < size; i++){
+double insertionSortTime(int arr[], int size) {
+    auto startTime = clock();
+    for (int i = 1; i < size; i++) {
         int key = arr[i];
         int j = i - 1;
 
-        while (j >= 0 && arr[j] > key){
+        while (j >= 0 && arr[j] > key) {
             arr[j + 1] = arr[j];
             j--;
         }
 
         arr[j + 1] = key;
     }
-	auto endTime = clock();
-	auto timeUsed = (endTime - startTime)/ (double)CLOCKS_PER_SEC * 1000;
-	return timeUsed;
+    auto endTime = clock();
+    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
+    return timeUsed;
 }
 
-void insertionSortCompare (int arr[], int size, int& count_compare){
-    for (int i = 1; ++count_compare && i < size; i++){
+void insertionSortCompare(int arr[], int size, int &count_compare) {
+    for (int i = 1; ++count_compare && i < size; i++) {
         int key = arr[i];
         int j = i - 1;
 
-        while (++count_compare && j >= 0 && ++count_compare && arr[j] > key){
+        while (++count_compare && j >= 0 && ++count_compare && arr[j] > key) {
             arr[j + 1] = arr[j];
             j--;
         }
@@ -318,8 +317,8 @@ void insertionSortCompare (int arr[], int size, int& count_compare){
     }
 }
 
-double shellSortTime (int arr[], int size){
-	auto startTime = clock();
+double shellSortTime(int arr[], int size) {
+    auto startTime = clock();
     for (int gap = size / 2; gap > 0; gap /= 2) {
         for (int i = gap; i < size; i++) {
             int key = arr[i];
@@ -333,18 +332,19 @@ double shellSortTime (int arr[], int size){
             arr[j + gap] = key;
         }
     }
-	auto endTime = clock();
-	auto timeUsed = (endTime - startTime)/ (double)CLOCKS_PER_SEC * 1000;
-	return timeUsed;
+    auto endTime = clock();
+    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
+    return timeUsed;
 }
 
-void shellSortCompare (int arr[], int size, int& count_compare){
+void shellSortCompare(int arr[], int size, int &count_compare) {
     for (int gap = size / 2; ++count_compare && gap > 0; gap /= 2) {
         for (int i = gap; ++count_compare && i < size; i++) {
             int key = arr[i];
             int j = i - gap;
 
-            while (++count_compare && j >= 0 && ++count_compare && arr[j] > key) {
+            while (++count_compare && j >= 0 && ++count_compare &&
+                   arr[j] > key) {
                 arr[j + gap] = arr[j];
                 j -= gap;
             }
