@@ -166,7 +166,7 @@ void flashSortCompare(int a[], int n, int &count_compare) {
     delete[] cnt;
 }
 
-double bubbleSortTime(int arr[], int n)
+double bubbleSortTime(int a[], int n)
 {
     auto beginTime = clock();
     int i, j;
@@ -174,8 +174,8 @@ double bubbleSortTime(int arr[], int n)
     for (i = 0; i < n - 1; i++) {
         swapped = false;
         for (j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                swap(arr[j], arr[j + 1]);
+            if (a[j] > a[j + 1]) {
+                swap(a[j], a[j + 1]);
                 swapped = true;
             }
         }
@@ -183,19 +183,19 @@ double bubbleSortTime(int arr[], int n)
         if (swapped == false)
             break;
     }
-    double timeUsed = ((double)clock() - beginTime);
+    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC;
     return timeUsed;
 }
 
-void bubbleSortCompare(int start, int a[], int n, int &count_compare) {
+void bubbleSortCompare(int a[], int n, int &count_compare) {
 
     int i, j;
     bool swapped;
     for (i = 0; ++count_compare && i < n - 1; i++) {
         swapped = false;
         for (j = 0; ++count_compare && j < n - i - 1; j++) {
-            if (++count_compare && arr[j] > arr[j + 1]) {
-                swap(arr[j], arr[j + 1]);
+            if (++count_compare && a[j] > a[j + 1]) {
+                swap(a[j], a[j + 1]);
                 swapped = true;
             }
         }
@@ -203,6 +203,54 @@ void bubbleSortCompare(int start, int a[], int n, int &count_compare) {
         if (++count_compare && swapped == false)
             break;
     }
-
+    
 }
 
+double shakerSortTime(int a[], int n) {
+    auto beginTime = clock();
+    for (int i = 0; i < n/2; i++) {
+        bool swapped = false;
+        for (int j = i; j < n - i - 1; j++) { 
+            if (a[j] < a[j+1]) {
+                int tmp = a[j];
+                a[j] = a[j+1];
+                a[j+1] = tmp;
+                swapped = true;
+            }
+        }
+        for (int j = n - 2 - i; j > i; j--) { 
+            if (a[j] > a[j-1]) {
+                int tmp = a[j];
+                a[j] = a[j-1];
+                a[j-1] = tmp;
+                swapped = true;
+            }
+        }
+        if(!swapped) break; 
+    }
+    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC;
+    return timeUsed;
+}
+
+void shakerSortCompare(int a[], int n, int &count_compare) {
+    for (int i = 0; ++count_compare && i < n/2; i++) {
+        bool swapped = false;
+        for (int j = i; ++count_compare && j < n - i - 1; j++) { 
+            if (++count_compare && a[j] < a[j+1]) {
+                int tmp = a[j];
+                a[j] = a[j+1];
+                a[j+1] = tmp;
+                swapped = true;
+            }
+        }
+        for (int j = n - 2 - i; ++count_compare && j > i; j--) { 
+            if (++count_compare && a[j] > a[j-1]) {
+                int tmp = a[j];
+                a[j] = a[j-1];
+                a[j-1] = tmp;
+                swapped = true;
+            }
+        }
+        if(!swapped) break; 
+    }
+}
