@@ -182,7 +182,8 @@ double bubbleSortTime(int a[], int n)
 
         if (swapped == false) break;
     }
-    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC * 1000;
+    auto endTime = clock();
+    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
     return timeUsed;
 }
 
@@ -204,6 +205,7 @@ void bubbleSortCompare(int a[], int n, int &count_compare) {
     }
    
 }
+
 
 
 double shakerSortTime(int a[], int n) {
@@ -228,7 +230,8 @@ double shakerSortTime(int a[], int n) {
         }
         if(!swapped) break; 
     }
-    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC * 1000;
+    auto endTime = clock();
+    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
     return timeUsed;
 }
 
@@ -255,9 +258,86 @@ void shakerSortCompare(int a[], int n, int &count_compare) {
     }
 }
 
-double selectionSortTime (int arr[], int size){
-	auto startTime = clock();
-    for (int i = 0; i < size - 1; i++){
+double countingSortTime(int a[], int n)
+{
+    auto startTime = clock();
+    int output[n]; 
+    int max = a[0];
+    int min = a[0];
+
+    for(int i = 1; i < n; i++)
+    {
+        if(a[i] > max)
+            max = a[i];
+        else if(a[i] < min)
+            min = a[i]; 
+    }
+
+    int k = max - min + 1; 
+
+    int count_array[k]; 
+    fill_n(count_array, k, 0); 
+
+    for(int i = 0; i < n; i++)
+        count_array[a[i] - min]++; 
+
+    for(int i = 1; i < k; i++)
+        count_array[i] += count_array[i - 1];
+
+    for(int i = 0; i < n; i++)
+    {
+        output[count_array[a[i] - min] - 1] = a[i];
+        count_array[a[i] - min]--;
+    }
+
+    for(int i = 0; i < n; i++)
+        a[i] = output[i]; 
+
+    auto endTime = clock();
+    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
+    return timeUsed;
+}
+
+void countingSortCompare(int a[], int n, int &count_compare)
+{
+
+    int output[n]; 
+    int max = a[0];
+    int min = a[0];
+
+    for(int i = 1; ++count_compare && i < n; i++)
+    {
+        if(++count_compare && a[i] > max)
+            max = a[i];
+        else if(++count_compare && a[i] < min)
+            min = a[i]; 
+    }
+
+    int k = max - min + 1; 
+
+    int count_array[k]; 
+    fill_n(count_array, k, 0); 
+
+    for(int i = 0; ++count_compare && i < n; i++)
+        count_array[a[i] - min]++; 
+
+    for(int i = 1; ++count_compare && i < k; i++)
+        count_array[i] += count_array[i - 1];
+
+    for(int i = 0; ++count_compare && i < n; i++)
+    {
+        output[count_array[a[i] - min] - 1] = a[i];
+        count_array[a[i] - min]--;
+    }
+
+    for(int i = 0; ++count_compare && i < n; i++)
+        a[i] = output[i]; 
+
+}
+
+double selectionSortTime(int arr[], int size) {
+    auto startTime = clock();
+    for (int i = 0; i < size - 1; i++) {
         int minIdx = i;
 
         for (int j = i + 1; j < size; j++) {
