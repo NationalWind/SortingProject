@@ -166,42 +166,174 @@ void flashSortCompare(int a[], int n, int &count_compare) {
     delete[] cnt;
 }
 
-double bubbleSortTime(int arr[], int n) {
+double bubbleSortTime(int a[], int n)
+{
     auto beginTime = clock();
     int i, j;
     bool swapped;
     for (i = 0; i < n - 1; i++) {
         swapped = false;
         for (j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                swap(arr[j], arr[j + 1]);
+            if (a[j] > a[j + 1]) {
+                swap(a[j], a[j + 1]);
                 swapped = true;
             }
         }
 
         if (swapped == false) break;
     }
-    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC * 1000;
+    auto endTime = clock();
+    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
     return timeUsed;
 }
 
-void bubbleSortCompare(int arr[], int n, int &count_compare) {
+
+void bubbleSortCompare(int a[], int n, int &count_compare) {
+
     int i, j;
     bool swapped;
     for (i = 0; ++count_compare && i < n - 1; i++) {
         swapped = false;
         for (j = 0; ++count_compare && j < n - i - 1; j++) {
-            if (++count_compare && arr[j] > arr[j + 1]) {
-                swap(arr[j], arr[j + 1]);
+            if (++count_compare && a[j] > a[j + 1]) {
+                swap(a[j], a[j + 1]);
                 swapped = true;
             }
         }
 
         if (++count_compare && swapped == false) break;
     }
+   
 }
 
 
+
+double shakerSortTime(int a[], int n) {
+    auto beginTime = clock();
+    for (int i = 0; i < n/2; i++) {
+        bool swapped = false;
+        for (int j = i; j < n - i - 1; j++) { 
+            if (a[j] < a[j+1]) {
+                int tmp = a[j];
+                a[j] = a[j+1];
+                a[j+1] = tmp;
+                swapped = true;
+            }
+        }
+        for (int j = n - 2 - i; j > i; j--) { 
+            if (a[j] > a[j-1]) {
+                int tmp = a[j];
+                a[j] = a[j-1];
+                a[j-1] = tmp;
+                swapped = true;
+            }
+        }
+        if(!swapped) break; 
+    }
+    auto endTime = clock();
+    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
+    return timeUsed;
+}
+
+void shakerSortCompare(int a[], int n, int &count_compare) {
+    for (int i = 0; ++count_compare && i < n/2; i++) {
+        bool swapped = false;
+        for (int j = i; ++count_compare && j < n - i - 1; j++) { 
+            if (++count_compare && a[j] < a[j+1]) {
+                int tmp = a[j];
+                a[j] = a[j+1];
+                a[j+1] = tmp;
+                swapped = true;
+            }
+        }
+        for (int j = n - 2 - i; ++count_compare && j > i; j--) { 
+            if (++count_compare && a[j] > a[j-1]) {
+                int tmp = a[j];
+                a[j] = a[j-1];
+                a[j-1] = tmp;
+                swapped = true;
+            }
+        }
+        if(!swapped) break; 
+    }
+}
+
+double countingSortTime(int a[], int n)
+{
+    auto startTime = clock();
+    int output[n]; 
+    int max = a[0];
+    int min = a[0];
+
+    for(int i = 1; i < n; i++)
+    {
+        if(a[i] > max)
+            max = a[i];
+        else if(a[i] < min)
+            min = a[i]; 
+    }
+
+    int k = max - min + 1; 
+
+    int count_array[k]; 
+    fill_n(count_array, k, 0); 
+
+    for(int i = 0; i < n; i++)
+        count_array[a[i] - min]++; 
+
+    for(int i = 1; i < k; i++)
+        count_array[i] += count_array[i - 1];
+
+    for(int i = 0; i < n; i++)
+    {
+        output[count_array[a[i] - min] - 1] = a[i];
+        count_array[a[i] - min]--;
+    }
+
+    for(int i = 0; i < n; i++)
+        a[i] = output[i]; 
+
+    auto endTime = clock();
+    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
+    return timeUsed;
+}
+
+void countingSortCompare(int a[], int n, int &count_compare)
+{
+
+    int output[n]; 
+    int max = a[0];
+    int min = a[0];
+
+    for(int i = 1; ++count_compare && i < n; i++)
+    {
+        if(++count_compare && a[i] > max)
+            max = a[i];
+        else if(++count_compare && a[i] < min)
+            min = a[i]; 
+    }
+
+    int k = max - min + 1; 
+
+    int count_array[k]; 
+    fill_n(count_array, k, 0); 
+
+    for(int i = 0; ++count_compare && i < n; i++)
+        count_array[a[i] - min]++; 
+
+    for(int i = 1; ++count_compare && i < k; i++)
+        count_array[i] += count_array[i - 1];
+
+    for(int i = 0; ++count_compare && i < n; i++)
+    {
+        output[count_array[a[i] - min] - 1] = a[i];
+        count_array[a[i] - min]--;
+    }
+
+    for(int i = 0; ++count_compare && i < n; i++)
+        a[i] = output[i]; 
+
+}
 
 double selectionSortTime(int arr[], int size) {
     auto startTime = clock();
