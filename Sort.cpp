@@ -203,9 +203,6 @@ void bubbleSortCompare(int arr[], int n, int &count_compare) {
 
 
 
-double selectionSortTime (int arr[], int size){
-	auto startTime = clock();
-    for (int i = 0; i < size - 1; i++){
 double selectionSortTime(int arr[], int size) {
     auto startTime = clock();
     for (int i = 0; i < size - 1; i++) {
