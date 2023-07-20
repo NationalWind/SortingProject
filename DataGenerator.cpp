@@ -62,3 +62,16 @@ void GenerateData(int a[], int n, int dataType) {
             printf("Error: unknown data type!\n");
     }
 }
+
+int* createArrayBasedOnString(int n, const char* dataType) {
+    string dataTypes[4]{"-rand", "-sorted", "-rev", "-nsorted"};
+    for (int i = 0; i < 5; i++) {
+        if (strcmp(dataType, dataTypes[i].c_str()) == 0) {
+            int* arr = new int[n];
+            GenerateData(arr, n, i);
+            return arr;
+        }
+    }
+    cout << "Error: unknown data type!" << endl;
+    return NULL;
+}

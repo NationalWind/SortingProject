@@ -1,9 +1,7 @@
-#include "DataGenerator.h"
-#include "Sort.h"
 
-using namespace std;
+#include "Menu.h"
 
-int main(int argc, char *argv[]) {
-    cout << 1;
+int main(int argc, char** argv) {
+    if (primeMenu(argc, argv)) return 1;
     return 0;
 }

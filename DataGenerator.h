@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <string.h>
 #include <time.h>
 
 #include <cmath>
@@ -14,3 +15,4 @@ void GenerateSortedData(int[], int);
 void GenerateReverseData(int[], int);
 void GenerateNearlySortedData(int[], int);
 void GenerateData(int[], int, int);
+int* createArrayBasedOnString(int, string);

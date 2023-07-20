@@ -76,8 +76,7 @@ double flashSortTime(int a[], int n) {
     int m = int(0.43 * n);
     int *cnt = new int[m]{0};
 
-    for (int i = 0; i < n; i++)
-        cnt[int(m * (a[i] - minValue) / (maxValue - minValue + 1))]++;
+    for (int i = 0; i < n; i++) cnt[int(m * (a[i] - minValue) / (maxValue - minValue + 1))]++;
 
     for (int i = 1; i < m; i++) cnt[i] += cnt[i - 1];
 
