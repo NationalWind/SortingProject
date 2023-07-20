@@ -30,12 +30,12 @@ void resourceUsedBySortingAlgorithm(int* a, int n, int& count_compare, double& t
             if (is_to_count_time) time_used = selectionSortTime(a, n);
             break;
         case 4:
-            if (is_to_count_compare) mergeSortCompare(a, n, count_compare);
-            if (is_to_count_time) time_used = mergeSortTime(a, n);
+            if (is_to_count_compare) mergeSortCompare(a, 0, n - 1, count_compare);
+            if (is_to_count_time) time_used = mergeSortTime(a, 0, n - 1);
             break;
         case 5:
-            if (is_to_count_compare) quickSortCompare(a, n, count_compare);
-            if (is_to_count_time) time_used = quickSortTime(a, n);
+            if (is_to_count_compare) quickSortCompare(a, 0, n - 1, count_compare);
+            if (is_to_count_time) time_used = quickSortTime(a, 0, n - 1);
             break;
         case 6:
             if (is_to_count_compare) radixSortCompare(a, n, count_compare);

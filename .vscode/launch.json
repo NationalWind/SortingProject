@@ -33,8 +33,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/Everything/Works/SortingProject/SortProject",
-      "program": "d:/Everything/Works/SortingProject/SortProject/build/Debug/outDebug",
+      "cwd": "c:/Users/ymytr/OneDrive/Tài liệu/GitHub/SortingProject",
+      "program": "c:/Users/ymytr/OneDrive/Tài liệu/GitHub/SortingProject/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
