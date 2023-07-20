@@ -119,9 +119,12 @@ int primeMenu(int argc, char** argv) {
             } else {  // Command 3
                 n = atoll(argv[3]);
                 const char* order[4]{"-rand", "-sorted", "-rev", "-nsorted"};
+                const char* order_display[4]{"Randomize", "Sorted", "Reverse", "Nearly Sorted"};
                 for (int i = 0; i < 4; i++) {
+                    cout << "Input Order: " << order_display[i] << endl;
                     arr = createArrayBasedOnString(n, order[i]);
                     printResultsOnConditions(arr, n, argv[2], argv[4]);
+                    cout << endl;
                     delete[] arr;
                 }
             }
@@ -166,11 +169,12 @@ int primeMenu(int argc, char** argv) {
             int n = 0;
             int* arr = nullptr;
             if (isNumber(argv[4])) {
-                arr = createArrayBasedOnString(n, argv[4]);
-                printResultsOnConditions(arr, n, argv[2], argv[5]);
+                n = atoll(argv[4]);
+                arr = createArrayBasedOnString(n, argv[5]);
+                printResultsOnConditions(arr, n, argv[2], "-both");
                 delete[] arr;
-                arr = createArrayBasedOnString(n, argv[4]);
-                printResultsOnConditions(arr, n, argv[3], argv[5]);
+                arr = createArrayBasedOnString(n, argv[5]);
+                printResultsOnConditions(arr, n, argv[3], "-both");
                 delete[] arr;
             } else {
                 cout << "Invalid input size" << endl;
