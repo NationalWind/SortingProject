@@ -377,17 +377,17 @@ void insertionSortCompare(int arr[], int size, int &count_compare) {
 
 double shellSortTime(int arr[], int size) {
     auto startTime = clock();
-    for (int gap = size / 2; gap > 0; gap /= 2) {
-        for (int i = gap; i < size; i++) {
+    for (int interval = size / 2; interval > 0; interval /= 2) {
+        for (int i = interval; i < size; i++) {
             int key = arr[i];
-            int j = i - gap;
+            int j = i - interval;
 
             while (j >= 0 && arr[j] > key) {
-                arr[j + gap] = arr[j];
-                j -= gap;
+                arr[j + interval] = arr[j];
+                j -= interval;
             }
 
-            arr[j + gap] = key;
+            arr[j + interval] = key;
         }
     }
     auto endTime = clock();
@@ -396,17 +396,17 @@ double shellSortTime(int arr[], int size) {
 }
 
 void shellSortCompare(int arr[], int size, int &count_compare) {
-    for (int gap = size / 2; ++count_compare && gap > 0; gap /= 2) {
-        for (int i = gap; ++count_compare && i < size; i++) {
+    for (int interval = size / 2; ++count_compare && interval > 0; interval /= 2) {
+        for (int i = interval; ++count_compare && i < size; i++) {
             int key = arr[i];
-            int j = i - gap;
+            int j = i - interval;
 
             while (++count_compare && j >= 0 && ++count_compare && arr[j] > key) {
-                arr[j + gap] = arr[j];
-                j -= gap;
+                arr[j + interval] = arr[j];
+                j -= interval;
             }
 
-            arr[j + gap] = key;
+            arr[j + interval] = key;
         }
     }
 }
