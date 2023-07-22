@@ -179,18 +179,12 @@ double bubbleSortTime(int a[], int n) {
 }
 
 void bubbleSortCompare(int a[], int n, long long& count_compare) {
-    int i, j;
-    bool swapped;
-    for (i = 0; ++count_compare && i < n - 1; i++) {
-        swapped = false;
-        for (j = 0; ++count_compare && j < n - i - 1; j++) {
+     for (int i = 0; ++count_compare && i < n - 1; i++) {
+        for (int j = 0; ++count_compare && j < n - i - 1; j++) {
             if (++count_compare && a[j] > a[j + 1]) {
                 swap(a[j], a[j + 1]);
-                swapped = true;
             }
         }
-
-        if (++count_compare && swapped == false) break;
     }
 }
 
