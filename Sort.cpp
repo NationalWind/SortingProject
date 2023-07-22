@@ -166,18 +166,12 @@ void flashSortCompare(int a[], int n, long long& count_compare) {
 
 double bubbleSortTime(int a[], int n) {
     auto start_time = clock();
-    int i, j;
-    bool swapped;
-    for (i = 0; i < n - 1; i++) {
-        swapped = false;
-        for (j = 0; j < n - i - 1; j++) {
+    for (int i = 0; i < n - 1; i++) {
+        for ( int j = 0; j < n - i - 1; j++) {
             if (a[j] > a[j + 1]) {
                 swap(a[j], a[j + 1]);
-                swapped = true;
             }
         }
-
-        if (swapped == false) break;
     }
     auto end_time = clock();
     auto time_used = (end_time - start_time) / (double)CLOCKS_PER_SEC * 1000;
