@@ -3,6 +3,7 @@
 #include <time.h>
 
 #include <cmath>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -15,4 +16,4 @@ void GenerateSortedData(int[], int);
 void GenerateReverseData(int[], int);
 void GenerateNearlySortedData(int[], int);
 void GenerateData(int[], int, int);
-int* createArrayBasedOnString(int, const char*);
+void createArrayByOrder(int*&, int, int);

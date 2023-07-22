@@ -1,6 +1,7 @@
 #pragma once
 #include <string.h>
 
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -11,5 +12,6 @@
 using namespace std;
 
 void resourceUsedBySortingAlgorithm(int*, int, long long&, double&, int, bool, bool);
-void printResultsOnConditions(int*, int, const char*, const char*);
-int primeMenu(int, char**);
+void printResultsAlgorithm(int*, int, int, const char*);
+void printResultsCompare(int*, int*, int, int, int);
+void primeMenu(int, char**);

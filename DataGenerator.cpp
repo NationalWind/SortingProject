@@ -49,29 +49,22 @@ void GenerateData(int a[], int n, int dataType) {
         case 0:  // ngẫu nhiên
             GenerateRandomData(a, n);
             break;
-        case 1:  // có thứ tự
+        case 1:  // gần như có thứ tự
+            GenerateNearlySortedData(a, n);
+            break;
+        case 2:  // có thứ tự
             GenerateSortedData(a, n);
             break;
-        case 2:  // có thứ tự ngược
+        case 3:  // có thứ tự ngược
             GenerateReverseData(a, n);
-            break;
-        case 3:  // gần như có thứ tự
-            GenerateNearlySortedData(a, n);
             break;
         default:
             printf("Error: unknown data type!\n");
+            exit(1);
     }
 }
 
-int* createArrayBasedOnString(int n, const char* dataType) {
-    string dataTypes[4]{"-rand", "-sorted", "-rev", "-nsorted"};
-    for (int i = 0; i < 5; i++) {
-        if (strcmp(dataType, dataTypes[i].c_str()) == 0) {
-            int* arr = new int[n];
-            GenerateData(arr, n, i);
-            return arr;
-        }
-    }
-    cout << "Error: unknown data type!" << endl;
-    return NULL;
+void createArrayByOrder(int*& arr, int n, int input_order_idx) {
+    arr = new int[n];
+    GenerateData(arr, n, input_order_idx);
 }
