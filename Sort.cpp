@@ -32,7 +32,7 @@ double heapSortTime(int a[], int n) {
     return timeUsed;
 }
 
-void heapifyCompare(int start, int a[], int n, int &count_compare) {
+void heapifyCompare(int start, int a[], int n, long long& count_compare) {
     int left = start * 2 + 1;
     if (++count_compare && left >= n) return;
     int larger = left;
@@ -48,7 +48,7 @@ void heapifyCompare(int start, int a[], int n, int &count_compare) {
     }
 }
 
-void heapSortCompare(int a[], int n, int &count_compare) {
+void heapSortCompare(int a[], int n, long long& count_compare) {
     count_compare = 0;
     for (int i = (n - 1) / 2; ++count_compare && i >= 0; i--) {
         heapifyCompare(i, a, n, count_compare);
@@ -74,7 +74,7 @@ double flashSortTime(int a[], int n) {
     }
 
     int m = int(0.43 * n);
-    int *cnt = new int[m]{0};
+    int* cnt = new int[m]{0};
 
     for (int i = 0; i < n; i++) cnt[int(m * (a[i] - minValue) / (maxValue - minValue + 1))]++;
 
@@ -114,7 +114,7 @@ double flashSortTime(int a[], int n) {
     return timeUsed;
 }
 
-void flashSortCompare(int a[], int n, int &count_compare) {
+void flashSortCompare(int a[], int n, long long& count_compare) {
     int minValue, maxValue;
     minValue = maxValue = a[0];
     for (int i = 1; ++count_compare && i < n; i++) {
@@ -125,7 +125,7 @@ void flashSortCompare(int a[], int n, int &count_compare) {
     }
 
     int m = int(0.43 * n);
-    int *cnt = new int[m]{0};
+    int* cnt = new int[m]{0};
 
     for (int i = 0; ++count_compare && i < n; i++)
         cnt[int(m * (a[i] - minValue) / (maxValue - minValue + 1))]++;
@@ -184,7 +184,7 @@ double bubbleSortTime(int a[], int n) {
     return time_used;
 }
 
-void bubbleSortCompare(int a[], int n, int &count_compare) {
+void bubbleSortCompare(int a[], int n, long long& count_compare) {
     int i, j;
     bool swapped;
     for (i = 0; ++count_compare && i < n - 1; i++) {
@@ -227,7 +227,7 @@ double shakerSortTime(int a[], int n) {
     return timeUsed;
 }
 
-void shakerSortCompare(int a[], int n, int &count_compare) {
+void shakerSortCompare(int a[], int n, long long& count_compare) {
     for (int i = 0; ++count_compare && i < n / 2; i++) {
         bool swapped = false;
         for (int j = i; ++count_compare && j < n - i - 1; j++) {
@@ -284,7 +284,7 @@ double countingSortTime(int a[], int n) {
     return timeUsed;
 }
 
-void countingSortCompare(int a[], int n, int &count_compare) {
+void countingSortCompare(int a[], int n, long long& count_compare) {
     int output[n];
     int max = a[0];
     int min = a[0];
@@ -330,7 +330,7 @@ double selectionSortTime(int arr[], int size) {
     return timeUsed;
 }
 
-void selectionSortCompare(int arr[], int size, int &count_compare) {
+void selectionSortCompare(int arr[], int size, long long& count_compare) {
     for (int i = 0; ++count_compare && i < size - 1; i++) {
         int minIdx = i;
 
@@ -361,7 +361,7 @@ double insertionSortTime(int arr[], int size) {
     return timeUsed;
 }
 
-void insertionSortCompare(int arr[], int size, int &count_compare) {
+void insertionSortCompare(int arr[], int size, long long& count_compare) {
     for (int i = 1; ++count_compare && i < size; i++) {
         int key = arr[i];
         int j = i - 1;
@@ -395,7 +395,7 @@ double shellSortTime(int arr[], int size) {
     return timeUsed;
 }
 
-void shellSortCompare(int arr[], int size, int &count_compare) {
+void shellSortCompare(int arr[], int size, long long& count_compare) {
     for (int gap = size / 2; ++count_compare && gap > 0; gap /= 2) {
         for (int i = gap; ++count_compare && i < size; i++) {
             int key = arr[i];
@@ -414,8 +414,8 @@ void shellSortCompare(int arr[], int size, int &count_compare) {
 void merge(int a[], int first, int mid, int last) {
     int n1 = mid - first + 1;
     int n2 = last - mid;
-    int *L = new int[n1];
-    int *R = new int[n2];
+    int* L = new int[n1];
+    int* R = new int[n2];
     for (int i = 0; i < n1; i++) L[i] = a[first + i];
     for (int j = 0; j < n2; j++) R[j] = a[mid + j + 1];
     int i = 0;
@@ -442,11 +442,11 @@ double mergeSortTime(int a[], int first, int last) {
     return timeUsed;
 }
 
-void mergeCompare(int a[], int first, int mid, int last, int &count_compare) {
+void mergeCompare(int a[], int first, int mid, int last, long long& count_compare) {
     int n1 = mid - first + 1;
     int n2 = last - mid;
-    int *L = new int[n1];
-    int *R = new int[n2];
+    int* L = new int[n1];
+    int* R = new int[n2];
     for (int i = 0; ++count_compare && i < n1; i++) L[i] = a[first + i];
     for (int j = 0; ++count_compare && j < n2; j++) R[j] = a[mid + j + 1];
     int i = 0;
@@ -460,7 +460,7 @@ void mergeCompare(int a[], int first, int mid, int last, int &count_compare) {
     delete[] L;
     delete[] R;
 }
-void mergeSortCompare(int a[], int first, int last, int &count_compare) {
+void mergeSortCompare(int a[], int first, int last, long long& count_compare) {
     if (++count_compare && first < last) {
         int mid = first + (last - first) / 2;
         mergeSortCompare(a, first, mid, count_compare);
@@ -471,7 +471,7 @@ void mergeSortCompare(int a[], int first, int last, int &count_compare) {
 
 double radixSortTime(int a[], int n) {
     auto startTime = clock();
-    int *b = new int[n];
+    int* b = new int[n];
     int m = a[0], exp = 1;
 
     for (int i = 0; i < n; i++)
@@ -491,8 +491,8 @@ double radixSortTime(int a[], int n) {
     return timeUsed;
 }
 
-void radixSortCompare(int a[], int n, int &count_compare) {
-    int *b = new int[n];
+void radixSortCompare(int a[], int n, long long& count_compare) {
+    int* b = new int[n];
     int m = a[0], exp = 1;
 
     for (int i = 0; ++count_compare && i < n; i++)
@@ -509,7 +509,7 @@ void radixSortCompare(int a[], int n, int &count_compare) {
     delete[] b;
 }
 
-int partitionCompare(int a[], int first, int last, int &count_compare) {
+int partitionCompare(int a[], int first, int last, long long& count_compare) {
     int pivot = a[(first + last) / 2];
     int i = first;
     int j = last;
@@ -527,7 +527,7 @@ int partitionCompare(int a[], int first, int last, int &count_compare) {
     }
     return i;
 }
-void quickSortCompare(int a[], int first, int last, int &count_compare) {
+void quickSortCompare(int a[], int first, int last, long long& count_compare) {
     int index = partitionCompare(a, first, last, count_compare);
     if (++count_compare && first < index - 1) quickSortCompare(a, first, index - 1, count_compare);
     if (++count_compare && index < last) quickSortCompare(a, index, last, count_compare);

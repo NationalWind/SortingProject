@@ -10,6 +10,6 @@
 
 using namespace std;
 
-void resourceUsedBySortingAlgorithm(int*, int, int&, double&, int, bool, bool);
+void resourceUsedBySortingAlgorithm(int*, int, long long&, double&, int, bool, bool);
 void printResultsOnConditions(int*, int, const char*, const char*);
 int primeMenu(int, char**);

@@ -9,7 +9,7 @@ bool isNumber(const char* s) {
     return true;
 }
 
-void resourceUsedBySortingAlgorithm(int* a, int n, int& count_compare, double& time_used,
+void resourceUsedBySortingAlgorithm(int* a, int n, long long& count_compare, double& time_used,
                                     int which_algo, bool is_to_count_compare,
                                     bool is_to_count_time) {
     switch (which_algo) {
@@ -63,10 +63,10 @@ void resourceUsedBySortingAlgorithm(int* a, int n, int& count_compare, double& t
 }
 
 void printResultsOnConditions(int* arr, int n, const char* algo, const char* parameters) {
-    string algos[11]{"-bubble-sort", "-heap-sort",     "-insertion-sort", "-selection-sort",
-                     "-merge-sort",  "-quick-sort",    "-radix-sort",     "-shell-sort",
-                     "-flash-sort",  "-counting-sort", "-shaker-sort"};
-    int count_compare = 0;
+    string algos[11]{"bubble-sort", "heap-sort",     "insertion-sort", "selection-sort",
+                     "merge-sort",  "quick-sort",    "radix-sort",     "shell-sort",
+                     "flash-sort",  "counting-sort", "shaker-sort"};
+    long long count_compare = 0;
     double time_used = 0;
     for (int i = 0; i < 11; i++) {
         if (strcmp(algo, algos[i].c_str()) == 0) {
@@ -179,6 +179,7 @@ int primeMenu(int argc, char** argv) {
                 delete[] arr;
             } else {
                 cout << "Invalid input size" << endl;
+                return 1;
             }
         } else {
             cout << "Too many arguments." << endl;
