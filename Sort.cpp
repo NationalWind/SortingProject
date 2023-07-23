@@ -1,6 +1,6 @@
 #include "Sort.h"
 
-void heapifyTime(int start, int a[], int n) {
+void heapify(int start, int a[], int n) {
     int left = start * 2 + 1;
     if (left >= n) return;
     int larger = left;
@@ -12,22 +12,26 @@ void heapifyTime(int start, int a[], int n) {
     }
     if (a[start] < a[larger]) {
         HoanVi(a[start], a[larger]);
-        heapifyTime(larger, a, n);
+        heapify(larger, a, n);
+    }
+}
+
+void heapSort(int a[], int n) {
+    for (int i = (n - 1) / 2; i >= 0; i--) {
+        heapify(i, a, n);
+    }
+    swap(a[0], a[n - 1]);
+    int sz = n - 1;
+    while (sz > 1) {
+        heapify(0, a, sz);
+        sz--;
+        HoanVi(a[0], a[sz]);
     }
 }
 
 double heapSortTime(int a[], int n) {
     auto start_time = std::chrono::high_resolution_clock::now();
-    for (int i = (n - 1) / 2; i >= 0; i--) {
-        heapifyTime(i, a, n);
-    }
-    swap(a[0], a[n - 1]);
-    int sz = n - 1;
-    while (sz > 1) {
-        heapifyTime(0, a, sz);
-        sz--;
-        HoanVi(a[0], a[sz]);
-    }
+    heapSort(a, n);
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
         std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
@@ -46,7 +50,7 @@ void heapifyCompare(int start, int a[], int n, long long& count_compare) {
     }
     if (++count_compare && a[start] < a[larger]) {
         HoanVi(a[start], a[larger]);
-        heapifyTime(larger, a, n);
+        heapify(larger, a, n);
     }
 }
 
@@ -77,9 +81,11 @@ double flashSortTime(int a[], int n) {
 
     int m = int(0.43 * n);
     int* cnt = new int[m]{0};
-
-    for (int i = 0; i < n; i++) cnt[int(m * (a[i] - minValue) / (maxValue - minValue + 1))]++;
-
+    double c1 = (double)(m - 1) / (maxValue - minValue);
+    for (int i = 0; i < n; i++) {
+        int k = int(c1 * (a[i] - minValue));
+        ++cnt[k];
+    }
     for (int i = 1; i < m; i++) cnt[i] += cnt[i - 1];
 
     int numMoves = 0;
@@ -88,19 +94,21 @@ double flashSortTime(int a[], int n) {
     while (numMoves < n - 1) {
         while (i > cnt[k] - 1) {
             i++;
-            k = int(m * (a[i] - minValue) / (maxValue - minValue + 1));
+            k = int(c1 * (a[i] - minValue));
         }
         int flash = a[i];
         if (k < 0) break;
         while (i != cnt[k]) {
-            k = int(m * (flash - minValue) / (maxValue - minValue + 1));
-            int swap = a[cnt[k] - 1];
+            k = int(c1 * (flash - minValue));
+            int hold = a[cnt[k] - 1];
             a[cnt[k] - 1] = flash;
             cnt[k]--;
-            flash = swap;
+            flash = hold;
             numMoves++;
         }
     }
+    delete[] cnt;
+
     for (int i = 1; i < n; i++) {
         int j = i;
         int temp = a[i];
@@ -110,8 +118,6 @@ double flashSortTime(int a[], int n) {
         }
         a[j] = temp;
     }
-
-    delete[] cnt;
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
         std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
@@ -131,8 +137,11 @@ void flashSortCompare(int a[], int n, long long& count_compare) {
     int m = int(0.43 * n);
     int* cnt = new int[m]{0};
 
-    for (int i = 0; ++count_compare && i < n; i++)
-        cnt[int(m * (a[i] - minValue) / (maxValue - minValue + 1))]++;
+    double c1 = (double)(m - 1) / (maxValue - minValue);
+    for (int i = 0; ++count_compare && i < n; i++) {
+        int k = int(c1 * (a[i] - minValue));
+        ++cnt[k];
+    }
 
     for (int i = 1; ++count_compare && i < m; i++) cnt[i] += cnt[i - 1];
 
@@ -142,19 +151,20 @@ void flashSortCompare(int a[], int n, long long& count_compare) {
     while (++count_compare && numMoves < n - 1) {
         while (++count_compare && i > cnt[k] - 1) {
             i++;
-            k = int(m * (a[i] - minValue) / (maxValue - minValue + 1));
+            k = int(c1 * (a[i] - minValue));
         }
         int flash = a[i];
         if (++count_compare && k < 0) break;
         while (++count_compare && i != cnt[k]) {
-            k = int(m * (flash - minValue) / (maxValue - minValue + 1));
-            int swap = a[cnt[k] - 1];
+            k = int(c1 * (flash - minValue));
+            int hold = a[cnt[k] - 1];
             a[cnt[k] - 1] = flash;
             cnt[k]--;
-            flash = swap;
+            flash = hold;
             numMoves++;
         }
     }
+    delete[] cnt;
     for (int i = 1; ++count_compare && i < n; i++) {
         int j = i;
         int temp = a[i];
@@ -164,8 +174,6 @@ void flashSortCompare(int a[], int n, long long& count_compare) {
         }
         a[j] = temp;
     }
-
-    delete[] cnt;
 }
 
 double bubbleSortTime(int a[], int n) {
@@ -247,35 +255,43 @@ void shakerSortCompare(int a[], int n, long long& count_compare) {
 double countingSortTime(int a[], int n) {
     auto start_time = std::chrono::high_resolution_clock::now();
 
-    int a1[10];
-    int count_a[10];
-    int x = a[0];
-
+    if (n <= 1) {
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto time_used =
+            std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
+        return time_used;
+    }
+    int max_value = a[0];
     for (int i = 1; i < n; i++) {
-        if (a[i] > x) x = a[i];
+        if (a[i] > max_value) max_value = a[i];
     }
 
-    for (int i = 0; i <= x; ++i) {
-        count_a[i] = 0;
+    int* counting_array = new int[max_value + 1];
+    for (int i = 0; i <= max_value; i++) {
+        counting_array[i] = 0;
     }
 
     for (int i = 0; i < n; i++) {
-        count_a[a[i]]++;
+        counting_array[a[i]]++;
     }
 
-    for (int i = 1; i <= x; i++) {
-        count_a[i] += count_a[i - 1];
+    for (int i = 1; i <= max_value; i++) {
+        counting_array[i] += counting_array[i - 1];
     }
+
+    int* temp = new int[n];
 
     for (int i = n - 1; i >= 0; i--) {
-        a1[count_a[a[i]] - 1] = a[i];
-        count_a[a[i]]--;
+        temp[counting_array[a[i]] - 1] = a[i];
+        counting_array[a[i]]--;
     }
 
     for (int i = 0; i < n; i++) {
-        a[i] = a1[i];
+        a[i] = temp[i];
     }
 
+    delete[] temp;
+    delete[] counting_array;
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
         std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
@@ -283,34 +299,39 @@ double countingSortTime(int a[], int n) {
 }
 
 void countingSortCompare(int a[], int n, long long& count_compare) {
-    int a1[10];
-    int count_a[10];
-    int x = a[0];
+    if (++count_compare && n <= 1) return;
 
+    int max_value = a[0];
     for (int i = 1; ++count_compare && i < n; i++) {
-        if (++count_compare && a[i] > x) x = a[i];
+        if (++count_compare && a[i] > max_value) max_value = a[i];
     }
 
-    for (int i = 0; ++count_compare && i <= x; ++i) {
-        count_a[i] = 0;
+    int* counting_array = new int[max_value + 1];
+    for (int i = 0; ++count_compare && i <= max_value; i++) {
+        counting_array[i] = 0;
     }
 
     for (int i = 0; ++count_compare && i < n; i++) {
-        count_a[a[i]]++;
+        counting_array[a[i]]++;
     }
 
-    for (int i = 1; ++count_compare && i <= x; i++) {
-        count_a[i] += count_a[i - 1];
+    for (int i = 1; ++count_compare && i <= max_value; i++) {
+        counting_array[i] += counting_array[i - 1];
     }
+
+    int* temp = new int[n];
 
     for (int i = n - 1; ++count_compare && i >= 0; i--) {
-        a1[count_a[a[i]] - 1] = a[i];
-        count_a[a[i]]--;
+        temp[counting_array[a[i]] - 1] = a[i];
+        counting_array[a[i]]--;
     }
 
     for (int i = 0; ++count_compare && i < n; i++) {
-        a[i] = a1[i];
+        a[i] = temp[i];
     }
+
+    delete[] temp;
+    delete[] counting_array;
 }
 
 double selectionSortTime(int a[], int size) {
@@ -432,14 +453,18 @@ void merge(int a[], int first, int mid, int last) {
     delete[] R;
 }
 
-double mergeSortTime(int a[], int first, int last) {
-    auto start_time = std::chrono::high_resolution_clock::now();
+void mergeSort(int a[], int first, int last) {
     if (first < last) {
         int mid = first + (last - first) / 2;
         mergeSortTime(a, first, mid);
         mergeSortTime(a, mid + 1, last);
         merge(a, first, mid, last);
     }
+}
+
+double mergeSortTime(int a[], int first, int last) {
+    auto start_time = std::chrono::high_resolution_clock::now();
+    mergeSort(a, first, last);
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
         std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
@@ -519,7 +544,7 @@ int partitionCompare(int a[], int first, int last, long long& count_compare) {
     int i = first;
     int j = last;
     int tmp;
-    while (i <= j) {
+    while (++count_compare && i <= j) {
         while (++count_compare && a[i] < pivot) i++;
         while (++count_compare && a[j] > pivot) j--;
         if (++count_compare && i <= j) {
@@ -556,11 +581,16 @@ int partition(int a[], int first, int last) {
     }
     return i;
 }
-double quickSortTime(int a[], int first, int last) {
-    auto start_time = std::chrono::high_resolution_clock::now();
+
+void quickSort(int a[], int first, int last) {
     int index = partition(a, first, last);
     if (first < index - 1) quickSortTime(a, first, index - 1);
     if (index < last) quickSortTime(a, index, last);
+}
+
+double quickSortTime(int a[], int first, int last) {
+    auto start_time = std::chrono::high_resolution_clock::now();
+    quickSort(a, first, last);
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
         std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
