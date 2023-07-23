@@ -7,7 +7,7 @@
 			"program": "${fileDirname}\\main.exe",
 			"args": [
 				"-a",
-				"flash-sort",
+				"counting-sort",
 				"500000",
 				"-time"
 			],
