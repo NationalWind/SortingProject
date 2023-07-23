@@ -19,7 +19,6 @@ int main() {
     strcpy(argv[3], "10000");
     strcpy(argv[4], "-both");
     for (int i = 0; i < 11; i++) {
-        cout << argv[2] << ' ' << algos[i] << endl;
         strcpy(argv[2], algos[i]);
         primeMenu(5, argv);
     }
