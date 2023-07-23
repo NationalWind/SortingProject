@@ -206,7 +206,7 @@ double shakerSortTime(int a[], int n) {
     for (int i = 0; i < n / 2; i++) {
         bool swapped = false;
         for (int j = i; j < n - i - 1; j++) {
-            if (a[j] < a[j + 1]) {
+            if (a[j] > a[j + 1]) {
                 int tmp = a[j];
                 a[j] = a[j + 1];
                 a[j + 1] = tmp;
@@ -214,7 +214,7 @@ double shakerSortTime(int a[], int n) {
             }
         }
         for (int j = n - 2 - i; j > i; j--) {
-            if (a[j] > a[j - 1]) {
+            if (a[j] < a[j - 1]) {
                 int tmp = a[j];
                 a[j] = a[j - 1];
                 a[j - 1] = tmp;
@@ -233,7 +233,7 @@ void shakerSortCompare(int a[], int n, long long& count_compare) {
     for (int i = 0; ++count_compare && i < n / 2; i++) {
         bool swapped = false;
         for (int j = i; ++count_compare && j < n - i - 1; j++) {
-            if (++count_compare && a[j] < a[j + 1]) {
+            if (++count_compare && a[j] > a[j + 1]) {
                 int tmp = a[j];
                 a[j] = a[j + 1];
                 a[j + 1] = tmp;
@@ -241,7 +241,7 @@ void shakerSortCompare(int a[], int n, long long& count_compare) {
             }
         }
         for (int j = n - 2 - i; ++count_compare && j > i; j--) {
-            if (++count_compare && a[j] > a[j - 1]) {
+            if (++count_compare && a[j] < a[j - 1]) {
                 int tmp = a[j];
                 a[j] = a[j - 1];
                 a[j - 1] = tmp;
