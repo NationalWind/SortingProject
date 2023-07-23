@@ -255,36 +255,42 @@ void shakerSortCompare(int a[], int n, long long& count_compare) {
 
 double countingSortTime(int a[], int n) {
     auto start_time = std::chrono::high_resolution_clock::now();
+    
+    if (n <= 1)
+        return; 
 
-    int a1[10];
-    int count_a[10];
-    int x = a[0];
-
+    int max_value = a[0];
     for (int i = 1; i < n; i++) {
-        if (a[i] > x) x = a[i];
+        if (a[i] > max_value)
+            max_value = a[i];
     }
 
-    for (int i = 0; i <= x; ++i) {
-        count_a[i] = 0;
+    int* counting_array = new int[max_value + 1];
+    for (int i = 0; i <= max_value; i++) {
+        counting_array[i] = 0;
     }
 
     for (int i = 0; i < n; i++) {
-        count_a[a[i]]++;
+        counting_array[a[i]]++;
     }
 
-    for (int i = 1; i <= x; i++) {
-        count_a[i] += count_a[i - 1];
+    for (int i = 1; i <= max_value; i++) {
+        counting_array[i] += counting_array[i - 1];
     }
+
+    int* temp = new int[n];
 
     for (int i = n - 1; i >= 0; i--) {
-        a1[count_a[a[i]] - 1] = a[i];
-        count_a[a[i]]--;
+        temp[counting_array[a[i]] - 1] = a[i];
+        counting_array[a[i]]--;
     }
 
     for (int i = 0; i < n; i++) {
-        a[i] = a1[i];
+        a[i] = temp[i];
     }
 
+    delete[] temp;
+    delete[] counting_array;
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
         std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
@@ -292,35 +298,43 @@ double countingSortTime(int a[], int n) {
 }
 
 void countingSortCompare(int a[], int n, long long& count_compare) {
-    int a1[10];
-    int count_a[10];
-    int x = a[0];
+    if (++count_compare && n <= 1)
+        return; 
 
+    int max_value = a[0];
     for (int i = 1; ++count_compare && i < n; i++) {
-        if (++count_compare && a[i] > x) x = a[i];
+        if (++count_compare && a[i] > max_value)
+            max_value = a[i];
     }
 
-    for (int i = 0; ++count_compare && i <= x; ++i) {
-        count_a[i] = 0;
+    int* counting_array = new int[max_value + 1];
+    for (int i = 0; ++count_compare && i <= max_value; i++) {
+        counting_array[i] = 0;
     }
 
     for (int i = 0; ++count_compare && i < n; i++) {
-        count_a[a[i]]++;
+        counting_array[a[i]]++;
     }
 
-    for (int i = 1; ++count_compare && i <= x; i++) {
-        count_a[i] += count_a[i - 1];
+    for (int i = 1; ++count_compare && i <= max_value; i++) {
+        counting_array[i] += counting_array[i - 1];
     }
+
+    int* temp = new int[n];
 
     for (int i = n - 1; ++count_compare && i >= 0; i--) {
-        a1[count_a[a[i]] - 1] = a[i];
-        count_a[a[i]]--;
+        temp[counting_array[a[i]] - 1] = a[i];
+        counting_array[a[i]]--;
     }
 
     for (int i = 0; ++count_compare && i < n; i++) {
-        a[i] = a1[i];
+        a[i] = temp[i];
     }
+
+    delete[] temp;
+    delete[] counting_array;
 }
+
 
 double selectionSortTime(int a[], int size) {
     auto start_time = std::chrono::high_resolution_clock::now();
