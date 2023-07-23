@@ -17,7 +17,7 @@ void heapifyTime(int start, int a[], int n) {
 }
 
 double heapSortTime(int a[], int n) {
-    auto beginTime = clock();
+    auto start_time = std::chrono::high_resolution_clock::now();
     for (int i = (n - 1) / 2; i >= 0; i--) {
         heapifyTime(i, a, n);
     }
@@ -28,8 +28,10 @@ double heapSortTime(int a[], int n) {
         sz--;
         HoanVi(a[0], a[sz]);
     }
-    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC * 1000;
-    return timeUsed;
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto time_used =
+        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+    return time_used;
 }
 
 void heapifyCompare(int start, int a[], int n, long long& count_compare) {
@@ -63,7 +65,7 @@ void heapSortCompare(int a[], int n, long long& count_compare) {
 }
 
 double flashSortTime(int a[], int n) {
-    auto beginTime = clock();
+    auto start_time = std::chrono::high_resolution_clock::now();
     int minValue, maxValue;
     minValue = maxValue = a[0];
     for (int i = 1; i < n; i++) {
@@ -110,8 +112,10 @@ double flashSortTime(int a[], int n) {
     }
 
     delete[] cnt;
-    double timeUsed = ((double)clock() - beginTime) / CLOCKS_PER_SEC * 1000;
-    return timeUsed;
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto time_used =
+        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+    return time_used;
 }
 
 void flashSortCompare(int a[], int n, long long& count_compare) {
@@ -165,37 +169,32 @@ void flashSortCompare(int a[], int n, long long& count_compare) {
 }
 
 double bubbleSortTime(int a[], int n) {
-    auto start_time = clock();
+    auto start_time = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < n - 1; i++) {
-        for ( int j = 0; j < n - i - 1; j++) {
+        for (int j = 0; j < n - i - 1; j++) {
             if (a[j] > a[j + 1]) {
                 swap(a[j], a[j + 1]);
             }
         }
     }
-    auto end_time = clock();
-    auto time_used = (end_time - start_time) / (double)CLOCKS_PER_SEC * 1000;
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto time_used =
+        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
     return time_used;
 }
 
 void bubbleSortCompare(int a[], int n, long long& count_compare) {
-    int i, j;
-    bool swapped;
-    for (i = 0; ++count_compare && i < n - 1; i++) {
-        swapped = false;
-        for (j = 0; ++count_compare && j < n - i - 1; j++) {
+    for (int i = 0; ++count_compare && i < n - 1; i++) {
+        for (int j = 0; ++count_compare && j < n - i - 1; j++) {
             if (++count_compare && a[j] > a[j + 1]) {
                 swap(a[j], a[j + 1]);
-                swapped = true;
             }
         }
-
-        if (++count_compare && swapped == false) break;
     }
 }
 
 double shakerSortTime(int a[], int n) {
-    auto beginTime = clock();
+    auto start_time = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < n / 2; i++) {
         bool swapped = false;
         for (int j = i; j < n - i - 1; j++) {
@@ -216,9 +215,10 @@ double shakerSortTime(int a[], int n) {
         }
         if (!swapped) break;
     }
-    auto endTime = clock();
-    auto timeUsed = (endTime - beginTime) / (double)CLOCKS_PER_SEC * 1000;
-    return timeUsed;
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto time_used =
+        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+    return time_used;
 }
 
 void shakerSortCompare(int a[], int n, long long& count_compare) {
@@ -245,162 +245,171 @@ void shakerSortCompare(int a[], int n, long long& count_compare) {
 }
 
 double countingSortTime(int a[], int n) {
-    auto startTime = clock();
-    int output[n];
-    int max = a[0];
-    int min = a[0];
+    auto start_time = std::chrono::high_resolution_clock::now();
+
+    int a1[10];
+    int count_a[10];
+    int x = a[0];
 
     for (int i = 1; i < n; i++) {
-        if (a[i] > max)
-            max = a[i];
-        else if (a[i] < min)
-            min = a[i];
+        if (a[i] > x) x = a[i];
     }
 
-    int k = max - min + 1;
-
-    int count_array[k];
-    fill_n(count_array, k, 0);
-
-    for (int i = 0; i < n; i++) count_array[a[i] - min]++;
-
-    for (int i = 1; i < k; i++) count_array[i] += count_array[i - 1];
+    for (int i = 0; i <= x; ++i) {
+        count_a[i] = 0;
+    }
 
     for (int i = 0; i < n; i++) {
-        output[count_array[a[i] - min] - 1] = a[i];
-        count_array[a[i] - min]--;
+        count_a[a[i]]++;
     }
 
-    for (int i = 0; i < n; i++) a[i] = output[i];
+    for (int i = 1; i <= x; i++) {
+        count_a[i] += count_a[i - 1];
+    }
 
-    auto endTime = clock();
-    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
-    return timeUsed;
+    for (int i = n - 1; i >= 0; i--) {
+        a1[count_a[a[i]] - 1] = a[i];
+        count_a[a[i]]--;
+    }
+
+    for (int i = 0; i < n; i++) {
+        a[i] = a1[i];
+    }
+
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto time_used =
+        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+    return time_used;
 }
 
 void countingSortCompare(int a[], int n, long long& count_compare) {
-    int output[n];
-    int max = a[0];
-    int min = a[0];
+    int a1[10];
+    int count_a[10];
+    int x = a[0];
 
     for (int i = 1; ++count_compare && i < n; i++) {
-        if (++count_compare && a[i] > max)
-            max = a[i];
-        else if (++count_compare && a[i] < min)
-            min = a[i];
+        if (++count_compare && a[i] > x) x = a[i];
     }
 
-    int k = max - min + 1;
-
-    int count_array[k];
-    fill_n(count_array, k, 0);
-
-    for (int i = 0; ++count_compare && i < n; i++) count_array[a[i] - min]++;
-
-    for (int i = 1; ++count_compare && i < k; i++) count_array[i] += count_array[i - 1];
+    for (int i = 0; ++count_compare && i <= x; ++i) {
+        count_a[i] = 0;
+    }
 
     for (int i = 0; ++count_compare && i < n; i++) {
-        output[count_array[a[i] - min] - 1] = a[i];
-        count_array[a[i] - min]--;
+        count_a[a[i]]++;
     }
 
-    for (int i = 0; ++count_compare && i < n; i++) a[i] = output[i];
+    for (int i = 1; ++count_compare && i <= x; i++) {
+        count_a[i] += count_a[i - 1];
+    }
+
+    for (int i = n - 1; ++count_compare && i >= 0; i--) {
+        a1[count_a[a[i]] - 1] = a[i];
+        count_a[a[i]]--;
+    }
+
+    for (int i = 0; ++count_compare && i < n; i++) {
+        a[i] = a1[i];
+    }
 }
 
-double selectionSortTime(int arr[], int size) {
-    auto startTime = clock();
+double selectionSortTime(int a[], int size) {
+    auto start_time = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < size - 1; i++) {
         int minIdx = i;
 
         for (int j = i + 1; j < size; j++) {
-            if (arr[minIdx] > arr[j]) {
+            if (a[minIdx] > a[j]) {
                 minIdx = j;
             }
         }
-        swap(arr[i], arr[minIdx]);
+        swap(a[i], a[minIdx]);
     }
-    auto endTime = clock();
-    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
-    return timeUsed;
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto time_used =
+        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+    return time_used;
 }
 
-void selectionSortCompare(int arr[], int size, long long& count_compare) {
+void selectionSortCompare(int a[], int size, long long& count_compare) {
     for (int i = 0; ++count_compare && i < size - 1; i++) {
         int minIdx = i;
 
         for (int j = i + 1; ++count_compare && j < size; j++) {
-            if (++count_compare && arr[minIdx] > arr[j]) {
+            if (++count_compare && a[minIdx] > a[j]) {
                 minIdx = j;
             }
         }
-        swap(arr[i], arr[minIdx]);
+        swap(a[i], a[minIdx]);
     }
 }
 
-double insertionSortTime(int arr[], int size) {
-    auto startTime = clock();
+double insertionSortTime(int a[], int size) {
+    auto start_time = std::chrono::high_resolution_clock::now();
     for (int i = 1; i < size; i++) {
-        int key = arr[i];
+        int key = a[i];
         int j = i - 1;
 
-        while (j >= 0 && arr[j] > key) {
-            arr[j + 1] = arr[j];
+        while (j >= 0 && a[j] > key) {
+            a[j + 1] = a[j];
             j--;
         }
 
-        arr[j + 1] = key;
+        a[j + 1] = key;
     }
-    auto endTime = clock();
-    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
-    return timeUsed;
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto time_used =
+        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+    return time_used;
 }
 
-void insertionSortCompare(int arr[], int size, long long& count_compare) {
+void insertionSortCompare(int a[], int size, long long& count_compare) {
     for (int i = 1; ++count_compare && i < size; i++) {
-        int key = arr[i];
+        int key = a[i];
         int j = i - 1;
 
-        while (++count_compare && j >= 0 && ++count_compare && arr[j] > key) {
-            arr[j + 1] = arr[j];
+        while (++count_compare && j >= 0 && ++count_compare && a[j] > key) {
+            a[j + 1] = a[j];
             j--;
         }
 
-        arr[j + 1] = key;
+        a[j + 1] = key;
     }
 }
 
-double shellSortTime(int arr[], int size) {
-    auto startTime = clock();
+double shellSortTime(int a[], int size) {
+    auto start_time = std::chrono::high_resolution_clock::now();
     for (int interval = size / 2; interval > 0; interval /= 2) {
         for (int i = interval; i < size; i++) {
-            int key = arr[i];
+            int key = a[i];
             int j = i - interval;
 
-            while (j >= 0 && arr[j] > key) {
-                arr[j + interval] = arr[j];
+            while (j >= 0 && a[j] > key) {
+                a[j + interval] = a[j];
                 j -= interval;
             }
 
-            arr[j + interval] = key;
+            a[j + interval] = key;
         }
     }
-    auto endTime = clock();
-    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
-    return timeUsed;
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto time_used =
+        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+    return time_used;
 }
 
-void shellSortCompare(int arr[], int size, long long& count_compare) {
+void shellSortCompare(int a[], int size, long long& count_compare) {
     for (int interval = size / 2; ++count_compare && interval > 0; interval /= 2) {
         for (int i = interval; ++count_compare && i < size; i++) {
-            int key = arr[i];
+            int key = a[i];
             int j = i - interval;
 
-            while (++count_compare && j >= 0 && ++count_compare && arr[j] > key) {
-                arr[j + interval] = arr[j];
+            while (++count_compare && j >= 0 && ++count_compare && a[j] > key) {
+                a[j + interval] = a[j];
                 j -= interval;
             }
 
-            arr[j + interval] = key;
+            a[j + interval] = key;
         }
     }
 }
@@ -424,16 +433,17 @@ void merge(int a[], int first, int mid, int last) {
 }
 
 double mergeSortTime(int a[], int first, int last) {
-    auto startTime = clock();
+    auto start_time = std::chrono::high_resolution_clock::now();
     if (first < last) {
         int mid = first + (last - first) / 2;
         mergeSortTime(a, first, mid);
         mergeSortTime(a, mid + 1, last);
         merge(a, first, mid, last);
     }
-    auto endTime = clock();
-    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
-    return timeUsed;
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto time_used =
+        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+    return time_used;
 }
 
 void mergeCompare(int a[], int first, int mid, int last, long long& count_compare) {
@@ -464,7 +474,7 @@ void mergeSortCompare(int a[], int first, int last, long long& count_compare) {
 }
 
 double radixSortTime(int a[], int n) {
-    auto startTime = clock();
+    auto start_time = std::chrono::high_resolution_clock::now();
     int* b = new int[n];
     int m = a[0], exp = 1;
 
@@ -480,9 +490,10 @@ double radixSortTime(int a[], int n) {
         exp *= 10;
     }
     delete[] b;
-    auto endTime = clock();
-    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
-    return timeUsed;
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto time_used =
+        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+    return time_used;
 }
 
 void radixSortCompare(int a[], int n, long long& count_compare) {
@@ -546,11 +557,12 @@ int partition(int a[], int first, int last) {
     return i;
 }
 double quickSortTime(int a[], int first, int last) {
-    auto startTime = clock();
+    auto start_time = std::chrono::high_resolution_clock::now();
     int index = partition(a, first, last);
     if (first < index - 1) quickSortTime(a, first, index - 1);
     if (index < last) quickSortTime(a, index, last);
-    auto endTime = clock();
-    auto timeUsed = (endTime - startTime) / (double)CLOCKS_PER_SEC * 1000;
-    return timeUsed;
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto time_used =
+        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+    return time_used;
 }
