@@ -32,7 +32,11 @@
 *.app
 
 # Visual Studio
-.sln
-.vcxproj
-.vcxproj.filters
-.vcxproj.user
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+*.txt
+
+
