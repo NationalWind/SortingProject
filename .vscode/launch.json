@@ -9,7 +9,7 @@
 				"-a",
 				"flash-sort",
 				"500000",
-				"-comp"
+				"-time"
 			],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",

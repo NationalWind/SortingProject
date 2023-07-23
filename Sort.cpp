@@ -1,6 +1,6 @@
 #include "Sort.h"
 
-void heapifyTime(int start, int a[], int n) {
+void heapify(int start, int a[], int n) {
     int left = start * 2 + 1;
     if (left >= n) return;
     int larger = left;
@@ -12,22 +12,26 @@ void heapifyTime(int start, int a[], int n) {
     }
     if (a[start] < a[larger]) {
         HoanVi(a[start], a[larger]);
-        heapifyTime(larger, a, n);
+        heapify(larger, a, n);
+    }
+}
+
+void heapSort(int a[], int n) {
+    for (int i = (n - 1) / 2; i >= 0; i--) {
+        heapify(i, a, n);
+    }
+    swap(a[0], a[n - 1]);
+    int sz = n - 1;
+    while (sz > 1) {
+        heapify(0, a, sz);
+        sz--;
+        HoanVi(a[0], a[sz]);
     }
 }
 
 double heapSortTime(int a[], int n) {
     auto start_time = std::chrono::high_resolution_clock::now();
-    for (int i = (n - 1) / 2; i >= 0; i--) {
-        heapifyTime(i, a, n);
-    }
-    swap(a[0], a[n - 1]);
-    int sz = n - 1;
-    while (sz > 1) {
-        heapifyTime(0, a, sz);
-        sz--;
-        HoanVi(a[0], a[sz]);
-    }
+    heapSort(a, n);
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
         std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
@@ -46,7 +50,7 @@ void heapifyCompare(int start, int a[], int n, long long& count_compare) {
     }
     if (++count_compare && a[start] < a[larger]) {
         HoanVi(a[start], a[larger]);
-        heapifyTime(larger, a, n);
+        heapify(larger, a, n);
     }
 }
 
@@ -133,8 +137,11 @@ void flashSortCompare(int a[], int n, long long& count_compare) {
     int m = int(0.43 * n);
     int* cnt = new int[m]{0};
 
-    for (int i = 0; ++count_compare && i < n; i++)
-        cnt[int(m * (a[i] - minValue) / (maxValue - minValue + 1))]++;
+    double c1 = (double)(m - 1) / (maxValue - minValue);
+    for (int i = 0; ++count_compare && i < n; i++) {
+        int k = int(c1 * (a[i] - minValue));
+        ++cnt[k];
+    }
 
     for (int i = 1; ++count_compare && i < m; i++) cnt[i] += cnt[i - 1];
 
@@ -434,14 +441,18 @@ void merge(int a[], int first, int mid, int last) {
     delete[] R;
 }
 
-double mergeSortTime(int a[], int first, int last) {
-    auto start_time = std::chrono::high_resolution_clock::now();
+void mergeSort(int a[], int first, int last) {
     if (first < last) {
         int mid = first + (last - first) / 2;
         mergeSortTime(a, first, mid);
         mergeSortTime(a, mid + 1, last);
         merge(a, first, mid, last);
     }
+}
+
+double mergeSortTime(int a[], int first, int last) {
+    auto start_time = std::chrono::high_resolution_clock::now();
+    mergeSort(a, first, last);
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
         std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
@@ -521,7 +532,7 @@ int partitionCompare(int a[], int first, int last, long long& count_compare) {
     int i = first;
     int j = last;
     int tmp;
-    while (i <= j) {
+    while (++count_compare && i <= j) {
         while (++count_compare && a[i] < pivot) i++;
         while (++count_compare && a[j] > pivot) j--;
         if (++count_compare && i <= j) {
@@ -558,11 +569,16 @@ int partition(int a[], int first, int last) {
     }
     return i;
 }
-double quickSortTime(int a[], int first, int last) {
-    auto start_time = std::chrono::high_resolution_clock::now();
+
+void quickSort(int a[], int first, int last) {
     int index = partition(a, first, last);
     if (first < index - 1) quickSortTime(a, first, index - 1);
     if (index < last) quickSortTime(a, index, last);
+}
+
+double quickSortTime(int a[], int first, int last) {
+    auto start_time = std::chrono::high_resolution_clock::now();
+    quickSort(a, first, last);
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
         std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
