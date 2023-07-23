@@ -94,19 +94,21 @@ double flashSortTime(int a[], int n) {
     while (numMoves < n - 1) {
         while (i > cnt[k] - 1) {
             i++;
-            k = int(m * (a[i] - minValue) / (maxValue - minValue + 1));
+            k = int(c1 * (a[i] - minValue));
         }
         int flash = a[i];
         if (k < 0) break;
         while (i != cnt[k]) {
-            k = int(m * (flash - minValue) / (maxValue - minValue + 1));
-            int swap = a[cnt[k] - 1];
+            k = int(c1 * (flash - minValue));
+            int hold = a[cnt[k] - 1];
             a[cnt[k] - 1] = flash;
             cnt[k]--;
-            flash = swap;
+            flash = hold;
             numMoves++;
         }
     }
+    delete[] cnt;
+
     for (int i = 1; i < n; i++) {
         int j = i;
         int temp = a[i];
@@ -116,8 +118,6 @@ double flashSortTime(int a[], int n) {
         }
         a[j] = temp;
     }
-
-    delete[] cnt;
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
         std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
@@ -151,19 +151,20 @@ void flashSortCompare(int a[], int n, long long& count_compare) {
     while (++count_compare && numMoves < n - 1) {
         while (++count_compare && i > cnt[k] - 1) {
             i++;
-            k = int(m * (a[i] - minValue) / (maxValue - minValue + 1));
+            k = int(c1 * (a[i] - minValue));
         }
         int flash = a[i];
         if (++count_compare && k < 0) break;
         while (++count_compare && i != cnt[k]) {
-            k = int(m * (flash - minValue) / (maxValue - minValue + 1));
-            int swap = a[cnt[k] - 1];
+            k = int(c1 * (flash - minValue));
+            int hold = a[cnt[k] - 1];
             a[cnt[k] - 1] = flash;
             cnt[k]--;
-            flash = swap;
+            flash = hold;
             numMoves++;
         }
     }
+    delete[] cnt;
     for (int i = 1; ++count_compare && i < n; i++) {
         int j = i;
         int temp = a[i];
@@ -173,8 +174,6 @@ void flashSortCompare(int a[], int n, long long& count_compare) {
         }
         a[j] = temp;
     }
-
-    delete[] cnt;
 }
 
 double bubbleSortTime(int a[], int n) {
