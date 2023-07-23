@@ -30,7 +30,7 @@ double heapSortTime(int a[], int n) {
     }
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
-        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+        std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
     return time_used;
 }
 
@@ -77,9 +77,11 @@ double flashSortTime(int a[], int n) {
 
     int m = int(0.43 * n);
     int* cnt = new int[m]{0};
-
-    for (int i = 0; i < n; i++) cnt[int(m * (a[i] - minValue) / (maxValue - minValue + 1))]++;
-
+    double c1 = (double)(m - 1) / (maxValue - minValue);
+    for (int i = 0; i < n; i++) {
+        int k = int(c1 * (a[i] - minValue));
+        ++cnt[k];
+    }
     for (int i = 1; i < m; i++) cnt[i] += cnt[i - 1];
 
     int numMoves = 0;
@@ -114,7 +116,7 @@ double flashSortTime(int a[], int n) {
     delete[] cnt;
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
-        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+        std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
     return time_used;
 }
 
@@ -179,7 +181,7 @@ double bubbleSortTime(int a[], int n) {
     }
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
-        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+        std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
     return time_used;
 }
 
@@ -217,7 +219,7 @@ double shakerSortTime(int a[], int n) {
     }
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
-        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+        std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
     return time_used;
 }
 
@@ -278,7 +280,7 @@ double countingSortTime(int a[], int n) {
 
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
-        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+        std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
     return time_used;
 }
 
@@ -327,7 +329,7 @@ double selectionSortTime(int a[], int size) {
     }
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
-        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+        std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
     return time_used;
 }
 
@@ -359,7 +361,7 @@ double insertionSortTime(int a[], int size) {
     }
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
-        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+        std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
     return time_used;
 }
 
@@ -394,7 +396,7 @@ double shellSortTime(int a[], int size) {
     }
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
-        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+        std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
     return time_used;
 }
 
@@ -442,7 +444,7 @@ double mergeSortTime(int a[], int first, int last) {
     }
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
-        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+        std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
     return time_used;
 }
 
@@ -492,7 +494,7 @@ double radixSortTime(int a[], int n) {
     delete[] b;
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
-        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+        std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
     return time_used;
 }
 
@@ -563,6 +565,6 @@ double quickSortTime(int a[], int first, int last) {
     if (index < last) quickSortTime(a, index, last);
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time_used =
-        std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+        std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
     return time_used;
 }
