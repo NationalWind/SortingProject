@@ -400,17 +400,17 @@ void insertionSortCompare(int a[], int size, long long& count_compare) {
 
 double shellSortTime(int a[], int size) {
     auto start_time = std::chrono::high_resolution_clock::now();
-    for (int interval = size / 2; interval > 0; interval /= 2) {
-        for (int i = interval; i < size; i++) {
+    for (int gap = size / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < size; i++) {
             int key = a[i];
-            int j = i - interval;
+            int j = i - gap;
 
             while (j >= 0 && a[j] > key) {
-                a[j + interval] = a[j];
-                j -= interval;
+                a[j + gap] = a[j];
+                j -= gap;
             }
 
-            a[j + interval] = key;
+            a[j + gap] = key;
         }
     }
     auto end_time = std::chrono::high_resolution_clock::now();
@@ -420,17 +420,17 @@ double shellSortTime(int a[], int size) {
 }
 
 void shellSortCompare(int a[], int size, long long& count_compare) {
-    for (int interval = size / 2; ++count_compare && interval > 0; interval /= 2) {
-        for (int i = interval; ++count_compare && i < size; i++) {
+    for (int gap = size / 2; ++count_compare && gap > 0; gap /= 2) {
+        for (int i = gap; ++count_compare && i < size; i++) {
             int key = a[i];
-            int j = i - interval;
+            int j = i - gap;
 
             while (++count_compare && j >= 0 && ++count_compare && a[j] > key) {
-                a[j + interval] = a[j];
-                j -= interval;
+                a[j + gap] = a[j];
+                j -= gap;
             }
 
-            a[j + interval] = key;
+            a[j + gap] = key;
         }
     }
 }
