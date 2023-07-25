@@ -67,9 +67,8 @@ int inputOrderIndex(const char* order, const char* orders[]) {
     exit(1);
 }
 
-void resourceUsedBySortingAlgorithm(int* a, int n, long long& count_compare, double& time_used,
-                                    int which_algo, bool is_to_count_compare,
-                                    bool is_to_count_time) {
+void gaugeResourceUsed(int* a, int n, long long& count_compare, double& time_used, int which_algo,
+                       bool is_to_count_compare, bool is_to_count_time) {
     int* temp_arr = nullptr;
     switch (which_algo) {
         case 0:
@@ -192,13 +191,13 @@ void printResultsAlgorithmMode(int* arr, int n, int algo, const char* parameters
     double time_used = 0;
 
     if (strcmp(parameters, "-time") == 0) {
-        resourceUsedBySortingAlgorithm(arr, n, count_compare, time_used, algo, false, true);
+        gaugeResourceUsed(arr, n, count_compare, time_used, algo, false, true);
         cout << "Running Time: " << time_used << " ms" << endl;
     } else if (strcmp(parameters, "-comp") == 0) {
-        resourceUsedBySortingAlgorithm(arr, n, count_compare, time_used, algo, true, false);
+        gaugeResourceUsed(arr, n, count_compare, time_used, algo, true, false);
         cout << "Comparisons: " << count_compare << endl;
     } else if (strcmp(parameters, "-both") == 0) {
-        resourceUsedBySortingAlgorithm(arr, n, count_compare, time_used, algo, true, true);
+        gaugeResourceUsed(arr, n, count_compare, time_used, algo, true, true);
         cout << "Running Time: " << time_used << " ms" << endl;
         cout << "Comparisons: " << count_compare << endl;
     } else {
@@ -213,8 +212,8 @@ void printResultsCompareMode(int* arr1, int* arr2, int n, int algo1, int algo2) 
     double time_used1 = 0;
     double time_used2 = 0;
 
-    resourceUsedBySortingAlgorithm(arr1, n, count_compare1, time_used1, algo1, 1, 1);
-    resourceUsedBySortingAlgorithm(arr2, n, count_compare2, time_used2, algo2, 1, 1);
+    gaugeResourceUsed(arr1, n, count_compare1, time_used1, algo1, 1, 1);
+    gaugeResourceUsed(arr2, n, count_compare2, time_used2, algo2, 1, 1);
 
     cout << "Running Time: " << time_used1 << " ms | " << time_used2 << " ms" << endl;
     cout << "Comparisons: " << count_compare1 << " | " << count_compare2 << endl;
